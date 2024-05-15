@@ -21,7 +21,9 @@ class TaskController extends BaseController
             $user = Auth::user();
 
             $tasks = Task::where('user_id', $user->id)->get();
-        
+            if ($tasks->isEmpty()) {
+                return $this->sendResponse('','No tasks found for this user.');
+            }
             return $this->sendResponse($tasks, 'Tasks found');
         } catch (\Exception $e) {
             return $this->sendError('error', ['error' => 'Failed to fetch tasks'], 500);
