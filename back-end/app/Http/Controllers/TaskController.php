@@ -7,8 +7,10 @@ use App\Models\Task;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\BaseController as BaseController;
+use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+class TaskController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +18,13 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            $tasks = Task::all();
-            return response()->json($tasks);
+            $user = Auth::user();
+
+            $tasks = Task::where('user_id', $user->id)->get();
+        
+            return $this->sendResponse($tasks, 'Tasks found');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch tasks'], 500);
+            return $this->sendError('error', ['error' => 'Failed to fetch tasks'], 500);
         }
     }
 
@@ -45,10 +50,12 @@ class TaskController extends Controller
 
             $task = Task::create($request->all());
             return response()->json($task, 201);
+
+            return $this->sendResponse($task, 'Task registered successfully.');
         } catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
+            return $this->sendError('error', ['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create task'], 500);
+            return $this->sendError('error', ['error' => 'Failed to create task'], 422);
         }
     }
 
@@ -81,13 +88,14 @@ class TaskController extends Controller
             ]);
 
             $task->update($request->all());
-            return response()->json($task);
+            return $this->sendResponse($task, 'Task update successfully.');
+
         } catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
+            return $this->sendError('error', ['error' => $e->getMessage()], 422);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Task not found'], 404);
+            return $this->sendError('error', ['error' => 'Task not found'], 404);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update task'], 500);
+            return $this->sendError('error', ['error' => 'Failed to update task'], 400);
         }
     }
 
@@ -98,11 +106,12 @@ class TaskController extends Controller
     {
         try {
             $task->delete();
-            return response()->json(null, 204);
+            return $this->sendResponse($task, 'Task delete successfully.');
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Task not found'], 404);
+            return $this->sendError('error', ['error' => 'Task not found'], 404);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete task'], 500);
+            return $this->sendError('error', ['error' => 'Failed to delete task'], 400);
+
         }
     }
 }
