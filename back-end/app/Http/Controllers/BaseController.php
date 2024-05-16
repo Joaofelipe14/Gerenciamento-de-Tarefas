@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
   
 use App\Http\Controllers\Controller as Controller;
   
+/**
+ * @OA\Info(title="Documentation TaskApi", version="0.1")
+ */
+
 class BaseController extends Controller
 {
     /**
@@ -11,7 +15,7 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message)
+    public function sendResponse($result, $message, $code=200)
     {
         $response = [
             'success' => true,
@@ -19,7 +23,7 @@ class BaseController extends Controller
             'message' => $message,
         ];
   
-        return response()->json($response, 200);
+        return response()->json($response, $code);
     }
   
     /**
