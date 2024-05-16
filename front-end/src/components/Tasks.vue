@@ -3,7 +3,8 @@
   <div class=" task card-body ms-5 me-5">
 
     <h3>Tasks -
-       <button v-if="!showForm" @click="toggleForm"> click here to add a new task <font-awesome-icon   :icon="['fas', 'plus']" /></button>
+      <button v-if="!showForm" @click="toggleForm"> click here to add a new task <font-awesome-icon
+          :icon="['fas', 'plus']" /></button>
       <button v-else @click="toggleForm">minimize new task box <font-awesome-icon :icon="['fas', 'minus']" /></button>
     </h3>
 
@@ -34,31 +35,36 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="Tasks in sortedTasks" v-bind:key="Tasks.id">
+              <tr v-for="task in sortedTasks" v-bind:key="task.id">
                 <td>
-                  {{ Tasks.id }}
+                  {{ task.id }}
                 </td>
                 <td>
-                  {{ Tasks.title }}
+                  {{ task.title }}
                 </td>
                 <td>
-                  {{ Tasks.description }}
+                  {{ task.description }}
                 </td>
                 <td>
-                  {{ Tasks.created_at }}
+                  {{ task.created_at }}
                 </td>
                 <td>
+                  <a href="#" class="icon">
+                    <i v-on:click="onDelete(task.id)">
+                      <font-awesome-icon :icon="['fa', 'fa-star']">
+                      </font-awesome-icon>
+                    </i>
+
+
+                  </a>
 
                   <a href="#" class="icon">
-                    <i v-on:click="onDelete(Tasks.id)">
+                    <i v-on:click="onDelete(task.id)">
                       <font-awesome-icon :icon="['fa', 'fa-trash']"></font-awesome-icon>
                     </i>
 
                   </a>
-                  <router-link :to="{
-                    name: 'TaskEdit',
-                    params: { id: Tasks.id }
-                  }" class="icon">
+                  <router-link :to="{ name: 'TaskEdit', params: { id: task.id } }" class="icon" v-on:click="passTask(task)">
                     <i>
                       <font-awesome-icon :icon="['fa', 'fa-pencil']"></font-awesome-icon>
                     </i>
@@ -104,26 +110,31 @@ export default {
         'description': '',
         'created_at': ''
       },
-      Tasks: [
-        {
-          "id": 1,
-          "title": "Task 1",
-          "description": "Description of task 1",
-          "created_at": "2024-05-15 10:00:00",
-          "updated_at": "2024-05-15 10:00:00"
-        },
-        {
-          "id": 2,
-          "title": "Task 2",
-          "description": "Description of task 2",
-          "created_at": "2024-05-15 11:00:00",
-          "updated_at": "2024-05-15 11:00:00"
-        }]
+      Tasks: [{
+        "id": 1,
+        "title": "Task 1",
+        "description": "Description of task 1",
+        "created_at": "2024-05-15 10:00:00",
+        "updated_at": "2024-05-15 10:00:00"
+      },
+      {
+        "id": 2,
+        "title": "Task 2",
+        "description": "Description of task 2",
+        "created_at": "2024-05-15 11:00:00",
+        "updated_at": "2024-05-15 11:00:00"
+      }]
     }
   },
   computed: {
     sortedTasks() {
       return this.Tasks;
+    }
+  },
+  props: {
+    task: {
+      type: Object,
+      required: true
     }
   },
   methods: {
@@ -133,6 +144,9 @@ export default {
       this.TasksData.description = ''
 
     },
+    passTask(task) {
+      this.$router.currentRoute.value.params.task = task;
+    },
     onDelete(id) {
       console.log('deleta')
 
@@ -141,7 +155,14 @@ export default {
       this.showForm = !this.showForm;
     },
     createTask(taskData) {
-    }
+    },
+    provide() {
+        //sending data to any child component
+        return {
+          posts: this.Tasks,
+        };
+      },
+      
   }
 }
 </script>

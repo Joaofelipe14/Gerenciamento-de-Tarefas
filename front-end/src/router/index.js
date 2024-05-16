@@ -13,12 +13,16 @@ const routes = [
     {
         path: '/tasks',
         name: 'Tasks',
-        component: Tasks
+        component: Tasks,
+        props:true
+
       },
       {
         path: '/TaskEdit/:id',
         name: 'TaskEdit',
-        component: TaskEdit
+        component: TaskEdit,
+        props:true
+
       }
   
   ]

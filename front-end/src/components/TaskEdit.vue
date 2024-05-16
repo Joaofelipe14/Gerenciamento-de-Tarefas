@@ -3,6 +3,7 @@
   <div class="card-body mt-5 ms-5 me-5">
     <div v-if="loaded">
       <h3>Task details</h3>
+      
       <div class="card">
         <task-form :task="task" mode="edit" @submit="handleEdit" />
       </div>
@@ -39,6 +40,18 @@ export default {
       loaded: true
     }
   },
+   props: {
+    task: Object, // Assuming Tasks is an array of task objects
+  },
+  methods: {
+    handleEdit(editedTask) {
+      console.log('Tarefa editada:', editedTask);
+    }
+  },
+  mounted() {
+  console.log('Received task:', this.task); // Log the task object
+  // ... other initialization code
+}
 }
 </script>
 

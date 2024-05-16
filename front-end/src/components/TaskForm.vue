@@ -25,10 +25,10 @@
 <script>
 export default {
   props: {
-    task: {
-      type: Object,
-      default: () => ({ id: '', title: '', description: '' })
-    },
+    props: {
+    task: Object, // Define the prop to receive a task object
+    mode: String, // Optional prop for mode (edit in this case)
+  },
     mode: {
       type: String,
       default: 'create'
