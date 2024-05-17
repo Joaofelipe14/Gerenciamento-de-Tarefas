@@ -149,12 +149,10 @@ export default {
       if (confirmed) {
         TaskService.deleteTask(id)
           .then(response => {
-            console.log('Tarefa criada:', response.data);
             this.Tasks = this.Tasks.filter(task => task.id !== id);
             showSuccess('Task deleted')
           })
           .catch(error => {
-            console.error('Erro ao criar a tarefa:', error);
             showError('Deleted fail')
           });
       } 

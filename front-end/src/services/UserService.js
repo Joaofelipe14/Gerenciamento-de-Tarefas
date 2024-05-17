@@ -17,7 +17,7 @@ class UserService {
   async authenticateWithFirebase(email, password, router) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push('/tasks');
+      router.replace('/tasks');
       return true; 
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -34,7 +34,7 @@ class UserService {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        router.push('/tasks'); 
+        router.replace('/tasks'); 
 
       })
       .catch((error) => {
@@ -45,7 +45,7 @@ class UserService {
   async logout() {
     auth.signOut().then(() => {
       console.log('removendo token')
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('token');
 
     }).catch(error => {
       console.error(error);
