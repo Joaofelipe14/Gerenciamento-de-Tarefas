@@ -35,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="task in sortedTasks" v-bind:key="task.id">
+              <tr v-for="task in Tasks" v-bind:key="task.id">
                 <td>
                   {{ task.id }}
                 </td>
@@ -49,8 +49,8 @@
                   {{ task.created_at }}
                 </td>
                 <td>
-                  <a href="#" class="icon">
-                    <i v-on:click="onDelete(task.id)">
+                  <a class="icon">
+                    <i>
                       <font-awesome-icon :icon="['fa', 'fa-star']">
                       </font-awesome-icon>
                     </i>
@@ -58,13 +58,14 @@
 
                   </a>
 
-                  <a href="#" class="icon">
+                  <a class="icon">
                     <i v-on:click="onDelete(task.id)">
                       <font-awesome-icon :icon="['fa', 'fa-trash']"></font-awesome-icon>
                     </i>
 
                   </a>
-                  <router-link :to="{ name: 'TaskEdit', params: { id: task.id } }" class="icon" v-on:click="passTask(task)">
+                  <router-link :to="{ name: 'TaskEdit', params: { id: task.id } }" class="icon"
+                    v-on:click="passTask(task)">
                     <i>
                       <font-awesome-icon :icon="['fa', 'fa-pencil']"></font-awesome-icon>
                     </i>
@@ -94,6 +95,10 @@ import Navbar from './Navbar.vue'
 import Footer from './Footer.vue'
 import TaskForm from '@/components/TaskForm.vue';
 
+import TaskService from '../services/TaskService';
+import { showConfirmation, showError, showSuccess } from '@/components/utils/alertHandler.js'
+
+
 export default {
   name: 'Tasks',
   components: {
@@ -103,69 +108,67 @@ export default {
   },
   data() {
     return {
-      showForm: false,
-      TasksData: {
-        'id': '',
-        'title': '',
-        'description': '',
-        'created_at': ''
-      },
-      Tasks: [{
-        "id": 1,
-        "title": "Task 1",
-        "description": "Description of task 1",
-        "created_at": "2024-05-15 10:00:00",
-        "updated_at": "2024-05-15 10:00:00"
-      },
-      {
-        "id": 2,
-        "title": "Task 2",
-        "description": "Description of task 2",
-        "created_at": "2024-05-15 11:00:00",
-        "updated_at": "2024-05-15 11:00:00"
-      }]
+      showForm: true,
+      Tasks: []
     }
   },
-  computed: {
-    sortedTasks() {
-      return this.Tasks;
-    }
-  },
-  props: {
-    task: {
-      type: Object,
-      required: true
-    }
+  created() {
+    TaskService.fetchTasks()
+      .then(response => {
+        console.log(response.data.data);
+        this.Tasks = response.data.data;
+      })
+
   },
   methods: {
-    onSubmit() {
-      this.TasksData.id = ''
-      this.TasksData.title = ''
-      this.TasksData.description = ''
-
-    },
     passTask(task) {
       this.$router.currentRoute.value.params.task = task;
     },
-    onDelete(id) {
-      console.log('deleta')
+    async onDelete(id) {
+
+      const confirmed = await showConfirmation('Are you sure you want to perform this action?');
+
+      if (confirmed) {
+        TaskService.deleteTask(id)
+          .then(response => {
+            console.log('Tarefa criada:', response.data);
+            this.Tasks = this.Tasks.filter(task => task.id !== id);
+            showSuccess('Task deleted')
+          })
+          .catch(error => {
+            console.error('Erro ao criar a tarefa:', error);
+            showError('Deleted fail')
+          });
+      } 
+
 
     },
     toggleForm() {
       this.showForm = !this.showForm;
     },
     createTask(taskData) {
-      console.log('craindo tareka')
-      console.log('taskdata')
-      console.log(taskData)
+      console.log('executando butao')
+
+      try {
+        // Chamando o método createTask do seu serviço de tarefas
+        TaskService.createTask(taskData)
+          .then(response => {
+            console.log('Tarefa criada:', response.data);
+          })
+          .catch(error => {
+            console.error('Erro ao criar a tarefa:', error);
+          });
+      } catch (error) {
+        console.error('Erro ao criar a tarefa:', error);
+      }
     },
     provide() {
-        //sending data to any child component
-        return {
-          posts: this.Tasks,
-        };
-      },
-      
+      //sending data to any child component
+      return {
+        posts: this.Tasks,
+      };
+    },
+
   }
 }
 </script>

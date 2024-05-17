@@ -88,11 +88,6 @@
                                     "description": {
                                         "type": "string",
                                         "example": "Task description"
-                                    },
-                                    "user_id": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "example": "1"
                                     }
                                 },
                                 "type": "object"

@@ -117,12 +117,6 @@ class TaskController extends BaseController
      *                     type="string",
      *                     example="Task description"
      *                 ),
-     *                 @OA\Property(
-     *                     property="user_id",
-     *                     type="integer",
-     *                     format="int64",
-     *                     example="1"
-     *                 )
      *             )
      *         )
      *     ),

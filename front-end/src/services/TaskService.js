@@ -5,11 +5,13 @@ const headers = {
 };
 
 class TaskService {
+ 
   fetchTasks() {
     return axiosInstance.get('/tasks', { headers });
   }
 
   createTask(taskData) {
+    console.log( 'executando ...')
     return axiosInstance.post('/tasks', taskData, { headers });
   }
 
