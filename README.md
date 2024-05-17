@@ -44,15 +44,16 @@ Dentro da pasta front-end:
 Com os dois projetos em execução para ver melhor as rotas da api acesse o back-end :
   ```
    http://localhost:8000/api/documentation#/
-
    ```
 
 Para ver o front-end acesse dados padroes
-email  test@example.com
-password password
-  ```
-http://localhost:8080/login
-   ```
+- email  `test@example.com`
+- password `password`
+  
+```
+http://localhost:8080/
+ 
+```
 ---
 
 
