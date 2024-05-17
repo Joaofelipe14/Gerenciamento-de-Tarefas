@@ -142,10 +142,16 @@ class TaskController extends BaseController
             $request->validate([
                 'title' => 'required|string',
                 'description' => 'required|string',
-                'user_id' => 'required|exists:users,id'
             ]);
 
-            $task = Task::create($request->all());
+            $user = Auth::user();
+
+
+            $task = Task::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => $user->id,
+            ]);
             return response()->json($task, 201);
 
             return $this->sendResponse($task, 'Task registered successfully.');
