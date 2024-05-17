@@ -44,6 +44,9 @@ class UserService {
   }
   async logout() {
     auth.signOut().then(() => {
+      console.log('removendo token')
+      localStorage.removeItem('authToken');
+
     }).catch(error => {
       console.error(error);
     });

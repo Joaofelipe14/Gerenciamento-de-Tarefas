@@ -23,7 +23,6 @@ class TaskService {
   }
 
   getTaskByTaskyd(taskId) {
-  console.log(taskId)
     return axiosInstance.get(`/task_id/${taskId}`, { headers });
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+  <Loader v-if="loading" />
 
   <div class=" task card-body ms-5 me-5">
 
@@ -11,11 +12,10 @@
 
     <task-form v-if="showForm" mode="create" @form-submitted="createTask" />
 
-    <div class="card mt-3 ">
+    <div v-if="Tasks.length>0" class="card mt-3 ">
       
       <h3>Tasks List</h3>
       <div class="card-body">
-        <Loader v-if="loading" />
 
         <div class="table-responsive">
           <table class="table">
@@ -40,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="task in sortedTasks" v-bind:key="task.id">
+              <tr v-for="task in Tasks" v-bind:key="task.id">
                 <td>
                   {{ task.id }}
                 </td>
@@ -86,6 +86,10 @@
       </div>
     </div>
 
+    <div v-else>
+      <h3>No data...</h3>
+    </div>
+    
   </div>
 
   <div>
@@ -136,9 +140,6 @@ export default {
 
   },
   computed: {
-    sortedTasks() {
-      return this.Tasks.slice().sort((a, b) => b.id - a.id);
-    }
   },
   methods: {
     async onDelete(id) {
@@ -166,8 +167,13 @@ export default {
     createTask(taskData) {
         TaskService.createTask(taskData)
           .then(response => {
-            console.log(response.data)
-            this.Tasks.push(response.data)
+       
+            if (!Array.isArray(this.Tasks)) {
+            this.Tasks = [];
+          }
+          this.Tasks.push(response.data);
+            
+          this.showForm= false
             showSuccess('Task create')
 
           })
@@ -206,7 +212,7 @@ h3 {
 }
 
 .task {
-  height: 100vh;
+  height: 90vh;
 }
 
 button {

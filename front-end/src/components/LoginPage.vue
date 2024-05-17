@@ -2,7 +2,7 @@
 
   <div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
     <div class="card p-4" style="width: 400px;">
-      <img src="path/to/your/image.jpg" class="card-img-top" alt="Imagem de login">
+      <img src="../assets/logo.png" class="card-img-top" alt="Imagem de login" style="height: 300px;">
       <div class="card-body">
         <h2 class="card-title text-center">Login</h2>
         <form @submit.prevent="submitForm">
@@ -71,5 +71,15 @@ export default {
 <style scoped>
 .bg-light {
   background-color: #f8f9fa !important;
+}
+
+.card-img-top{
+  border-radius: 10px;
+  align-items: center
+}
+
+.img{
+  width: 250px;
+  height: 250px
 }
 </style>

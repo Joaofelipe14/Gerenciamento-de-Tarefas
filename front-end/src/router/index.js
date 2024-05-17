@@ -4,7 +4,6 @@ import LoginPage from '@/components/LoginPage'
 import TaskEdit from '@/components/TaskEdit'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-
 const routes = [
   {
     path: '/',
@@ -22,8 +21,6 @@ const routes = [
     component: Tasks,
     props: true,
     meta: { requiresAuth: true }
-
-
   },
   {
     path: '/tasks/:id/edit',
@@ -31,8 +28,6 @@ const routes = [
     component: TaskEdit,
     props: true,
     meta: { requiresAuth: true }
-
-
   }
 
 ]
