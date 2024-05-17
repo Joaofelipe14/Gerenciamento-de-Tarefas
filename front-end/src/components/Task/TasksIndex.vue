@@ -101,16 +101,16 @@
 <script>
 /* eslint-disable */
 
-import Navbar from './Navbar.vue'
-import Footer from './Footer.vue'
-import TaskForm from '@/components/TaskForm.vue';
-import TaskService from '../services/TaskService';
+import Navbar from '../Navbar.vue'
+import Footer from '../Footer.vue'
+import TaskForm from '@/components/Task/TaskForm.vue';
+import TaskService from '../../services/TaskService.js';
 import { showConfirmation, showError, showSuccess } from '@/components/utils/alertHandler.js'
 import Loader from "@/components/Loader.vue";
 
 
 export default {
-  name: 'Tasks',
+  name: 'TasksIndex',
   components: {
     Navbar,
     Footer,

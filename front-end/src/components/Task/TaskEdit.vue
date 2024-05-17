@@ -18,10 +18,10 @@
 
 <script>
 
-import Navbar from './Navbar.vue'
-import Footer from './Footer.vue'
-import TaskForm from '@/components/TaskForm.vue';
-import TaskService from '../services/TaskService';
+import Navbar from '../Navbar.vue'
+import Footer from '../Footer.vue'
+import TaskForm from '@/components/Task/TaskForm.vue';
+import TaskService from '../../services/TaskService';
 
 import { showError, showSuccess } from '@/components/utils/alertHandler.js'
 

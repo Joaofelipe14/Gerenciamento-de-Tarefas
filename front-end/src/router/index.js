@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Tasks from '@/components/Tasks'
+import TasksIndex from '@/components/Task/TasksIndex'
 import LoginPage from '@/components/LoginPage'
-import TaskEdit from '@/components/TaskEdit'
+import TaskEdit from '@/components/Task/TaskEdit'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const routes = [
@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/tasks',
     name: 'Tasks',
-    component: Tasks,
+    component: TasksIndex,
     props: true,
     meta: { requiresAuth: true }
   },

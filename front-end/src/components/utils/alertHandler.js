@@ -19,7 +19,7 @@ export const showConfirmation = async (message, title = 'Confirmar') => {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Yes!',
-    cancelButtonText: 'Não',
+    cancelButtonText: 'No',
     buttonsStyling: true,
     allowOutsideClick: false,
     allowEscapeKey: false
