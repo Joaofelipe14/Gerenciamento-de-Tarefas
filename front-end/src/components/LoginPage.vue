@@ -25,10 +25,10 @@
 </template>
 
 <script>
+
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Loader from "@/components/Loader.vue";
-
 import { showError } from '@/components/utils/alertHandler.js'
 
 

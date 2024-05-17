@@ -8,8 +8,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const routes = [
   {
     path: '/',
-    name: 'Tasks',
-    component: Tasks
+    name: 'LoginPage',
+    component: LoginPage
   },
   {
     path: '/Login',
