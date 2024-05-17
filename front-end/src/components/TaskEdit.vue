@@ -1,11 +1,10 @@
 <template>
   <Navbar />
   <div class="card-body mt-5 ms-5 me-5">
-    <div v-if="loaded">
+    <div v-if="Task.length > 0">
       <h3>Task details</h3>
-
       <div class="card">
-        <task-form :Task="Task" mode="edit" @submit="handleEdit" />
+        <task-form :Task="Task" mode="edit"  @form-submitted="handleEdit" />
       </div>
     </div>
     <div v-else>
@@ -24,6 +23,9 @@ import Footer from './Footer.vue'
 import TaskForm from '@/components/TaskForm.vue';
 import TaskService from '../services/TaskService';
 
+import { showError, showSuccess } from '@/components/utils/alertHandler.js'
+
+
 
 export default {
   /* eslint-disable */
@@ -38,7 +40,6 @@ export default {
       productId: '',
       productName: '',
       productPrice: '',
-      loaded: true,
       Task: []
     }
   },
@@ -46,14 +47,25 @@ export default {
     id: String
   },
   methods: {
-    handleEdit(editedTask) {
-      console.log('Tarefa editada:', editedTask);
+      handleEdit(editedTask) {
+
+        console.log(editedTask)
+        TaskService.updateTask(this.$route.params.id,editedTask)
+        .then(response => {
+          console.log('Tarefa atualizada:', response.data);
+        
+          showSuccess('Task update')
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar a tarefa:', error);
+          showError('update Fail')
+        });
     }
+  
   },
   created() {
-    const taskId = this.$route.params.id;
 
-    TaskService.getTaskByTaskyd(taskId)
+    TaskService.getTaskByTaskyd(this.$route.params.id)
       .then(response => {
         this.Task = response.data.data;
       }).catch(error => {

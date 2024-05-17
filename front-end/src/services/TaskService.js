@@ -11,7 +11,6 @@ class TaskService {
   }
 
   createTask(taskData) {
-    console.log( 'executando ...')
     return axiosInstance.post('/tasks', taskData, { headers });
   }
 

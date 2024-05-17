@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+
   <div class=" task card-body ms-5 me-5">
 
     <h3>Tasks -
@@ -8,13 +9,17 @@
       <button v-else @click="toggleForm">minimize new task box <font-awesome-icon :icon="['fas', 'minus']" /></button>
     </h3>
 
-    <task-form v-if="showForm" mode="create" @submit="createTask" />
+    <task-form v-if="showForm" mode="create" @form-submitted="createTask" />
 
     <div class="card mt-3 ">
+      
       <h3>Tasks List</h3>
       <div class="card-body">
+        <Loader v-if="loading" />
+
         <div class="table-responsive">
           <table class="table">
+
             <thead>
               <tr>
                 <th scope="col">
@@ -35,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="task in Tasks" v-bind:key="task.id">
+              <tr v-for="task in sortedTasks" v-bind:key="task.id">
                 <td>
                   {{ task.id }}
                 </td>
@@ -65,7 +70,7 @@
 
                   </a>
                   <router-link
-                   :to="{ name: 'TaskEdit',params: { id: task.id, taskData: task }}
+                   :to="{ name: 'TaskEdit',params: { id: task.id }}
                   " class="icon">
                     <i>
                       <font-awesome-icon :icon="['fa', 'fa-pencil']"></font-awesome-icon>
@@ -95,9 +100,9 @@
 import Navbar from './Navbar.vue'
 import Footer from './Footer.vue'
 import TaskForm from '@/components/TaskForm.vue';
-
 import TaskService from '../services/TaskService';
 import { showConfirmation, showError, showSuccess } from '@/components/utils/alertHandler.js'
+import Loader from "@/components/Loader.vue";
 
 
 export default {
@@ -105,21 +110,35 @@ export default {
   components: {
     Navbar,
     Footer,
-    TaskForm
+    TaskForm,
+    Loader
   },
+  
   data() {
     return {
-      showForm: true,
-      Tasks: []
+      showForm: false,
+      Tasks: [],
+      loading: true,
+
     }
   },
   created() {
     TaskService.fetchTasks()
       .then(response => {
-        console.log(response.data.data);
         this.Tasks = response.data.data;
-      })
+        this.loading = false;
 
+      }).catch(error => {
+        console.error('Erro ao criar a tarefa:', error);
+        this.loading = false;
+
+      });
+
+  },
+  computed: {
+    sortedTasks() {
+      return this.Tasks.slice().sort((a, b) => b.id - a.id);
+    }
   },
   methods: {
     async onDelete(id) {
@@ -145,20 +164,19 @@ export default {
       this.showForm = !this.showForm;
     },
     createTask(taskData) {
-      console.log('executando butao')
-
-      try {
-        // Chamando o método createTask do seu serviço de tarefas
         TaskService.createTask(taskData)
           .then(response => {
-            console.log('Tarefa criada:', response.data);
+            console.log(response.data)
+            this.Tasks.push(response.data)
+            showSuccess('Task create')
+
           })
           .catch(error => {
-            console.error('Erro ao criar a tarefa:', error);
+            console.error(error)
+            showError('Error creating task')
+
           });
-      } catch (error) {
-        console.error('Erro ao criar a tarefa:', error);
-      }
+     
     },
     provide() {
       //sending data to any child component
