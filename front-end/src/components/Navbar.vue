@@ -30,7 +30,7 @@
 
 <script>
 
-import APIClient from '../services/UserService.js';
+import UserService from '../services/UserService.js';
 import { showError } from '@/components/utils/alertHandler.js'
 
 export default {
@@ -43,7 +43,7 @@ export default {
     methods: {
         logout() {
             try {
-                APIClient.logout();
+                UserService.logout();
                 this.$router.push('/login');
             } catch (error) {
                 showError(error)

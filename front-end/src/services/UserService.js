@@ -2,8 +2,11 @@ import axiosInstance from './axiosInstance';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
+const headers = {
+  'Authorization': `Bearer ${localStorage.getItem('token')}`
+};
 
-class APIClient {
+class UserService {
 
   login(email, password) {
     return axiosInstance.post('/login', {
@@ -11,25 +14,29 @@ class APIClient {
       password: password
     });
   }
-
-  async authenticateWithFirebase(email, password) {
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => { })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          this.signInFirebase(email, password);
-        } else {
-          console.error(error.message);
-        }
-      })
-
+  async authenticateWithFirebase(email, password, router) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push('/tasks');
+      return true; 
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        await this.signInFirebase(email, password, router);
+        return true; 
+      } else {
+        console.error(error.message);
+        return false; 
+      }
+    }
   }
-
-  async signInFirebase(email, password) {
+  
+  async signInFirebase(email, password, router) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {})
+      .then(() => {
+        router.push('/tasks'); 
+
+      })
       .catch((error) => {
         console.error(error,);
       });
@@ -44,8 +51,10 @@ class APIClient {
   }
 
 
-
+  async me() {
+    return axiosInstance.get('/me', { headers });
+  }
 
 }
 
-export default new APIClient();
+export default new UserService();

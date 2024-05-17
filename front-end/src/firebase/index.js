@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-import { getAuth} from 'firebase/auth'
+/* eslint-disable */
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD3FNdBJsVJG_ImoFFpA_z2DCoGN6z7f0I",
@@ -13,8 +13,23 @@ const firebaseConfig = {
   measurementId: "G-WE7Z3J2RVY"
 };
 
-
 // Initialize Firebase
 initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 export const auth = getAuth();
+
+export function getCurrentUser() {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+  });
+};
+
+export async function login() {
+  await signInWithEmailAndPassword(auth, 'user@mail.com', 'password')
+}
+
+export async function logout() {
+  await signOut(auth)
+}

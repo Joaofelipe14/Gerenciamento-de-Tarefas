@@ -26,7 +26,7 @@
 
 <script>
 
-import APIClient from '../services/UserService.js';
+import UserService from '../services/UserService.js';
 import Loader from "@/components/Loader.vue";
 import { showError } from '@/components/utils/alertHandler.js'
 
@@ -50,19 +50,18 @@ export default {
       this.loading = true;
 
       try {
-        await APIClient.login(this.email, this.password);
-        const tokenApi = await APIClient.login(this.email, this.password);
+        await UserService.login(this.email, this.password);
+        const tokenApi = await UserService.login(this.email, this.password);
         localStorage.setItem('token', tokenApi.data.data.token);
-
-        await APIClient.authenticateWithFirebase(this.email, this.password);
-        this.$router.push('/tasks');
-      
+        const authOk = await UserService.authenticateWithFirebase(this.email, this.password, this.$router);
+        console.log(authOk);
+        if (authOk) {
+          this.loading = false; 
+        }
       } catch (error) {
-        showError('invalid credentials');
-      } finally {
         this.loading = false;
-      };
-
+        showError('invalid credentials');
+      }
     },
 
   }
