@@ -49,7 +49,7 @@ Para ver o front-end acesse dados padroes
 - password `password`
   
 ```
-http://localhost:8080/
+http://localhost:8080/login
  
 ```
 ---
