@@ -13,7 +13,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">User</a>
                         </li>
-                        <li class="nav-item" >
+                        <li class="nav-item">
                             <a class="nav-link icon" title="Logout" v-on:click="logout()">
                                 <i>
                                     <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
@@ -30,7 +30,7 @@
 
 <script>
 
-import { auth } from '../firebase';
+import APIClient from '../services/UserService.js';
 import { showError } from '@/components/utils/alertHandler.js'
 
 export default {
@@ -42,18 +42,14 @@ export default {
     },
     methods: {
         logout() {
-            auth.signOut().then(() => {
+            try {
+                APIClient.logout();
                 this.$router.push('/login');
-            }).catch(error => {
-                console.error('Erro ao fazer logout:', error);
-                showError(error.message);
-            });
-
-
+            } catch (error) {
+                showError(error)
+            }
         }
     }
-
-
 }
 </script>
 
@@ -73,8 +69,8 @@ li {
     display: inline-block;
     margin: 0 10px;
 }
-.icon i {
-  cursor: pointer;
-}
 
+.icon i {
+    cursor: pointer;
+}
 </style>

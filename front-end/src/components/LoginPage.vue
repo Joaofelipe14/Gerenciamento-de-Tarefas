@@ -26,7 +26,7 @@
 
 <script>
 
-import APIClient from '../services/APIClient.js';
+import APIClient from '../services/UserService.js';
 import Loader from "@/components/Loader.vue";
 import { showError } from '@/components/utils/alertHandler.js'
 
@@ -52,13 +52,13 @@ export default {
       try {
         await APIClient.login(this.email, this.password);
         const tokenApi = await APIClient.login(this.email, this.password);
-        console.log(tokenApi.data.data.token)
+        localStorage.setItem('token', tokenApi.data.data.token);
+
         await APIClient.authenticateWithFirebase(this.email, this.password);
         this.$router.push('/tasks');
-      } catch (error) {  
+      
+      } catch (error) {
         showError('invalid credentials');
-
-
       } finally {
         this.loading = false;
       };

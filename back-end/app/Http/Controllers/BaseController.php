@@ -1,11 +1,19 @@
 <?php
-  
+
 namespace App\Http\Controllers;
-  
+
 use App\Http\Controllers\Controller as Controller;
-  
+
 /**
  * @OA\Info(title="Documentation TaskApi", version="0.1")
+ ** @OA\SecurityScheme(
+ *    securityScheme="bearerAuth",
+ *    in="header",
+ *    name="Authorization",
+ *    type="http",
+ *    scheme="bearer",
+ *    bearerFormat="JWT",
+ * )
  */
 
 class BaseController extends Controller
@@ -15,17 +23,17 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message, $code=200)
+    public function sendResponse($result, $message, $code = 200)
     {
         $response = [
             'success' => true,
             'data'    => $result,
             'message' => $message,
         ];
-  
+
         return response()->json($response, $code);
     }
-  
+
     /**
      * return error response.
      *
@@ -37,11 +45,11 @@ class BaseController extends Controller
             'success' => false,
             'message' => $error,
         ];
-  
-        if(!empty($errorMessages)){
+
+        if (!empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
-  
+
         return response()->json($response, $code);
     }
 }

@@ -149,4 +149,48 @@ class UserController extends BaseController
             return $this->sendError('Unauthorized.', ['error' => 'Unauthorized'],401);
         }
     }
+
+    /**
+
+     * Retrieve tasks for the authenticated user.
+     * @OA\Get(
+     *     path="/api/me",
+     *     summary="Retrieve tasks",
+     *     description="Endpoint to retrieve tasks for the authenticated user.",
+     *     tags={"User"},
+     *     security={{ "bearerAuth": {} }},
+     *     @OA\Parameter(
+     *         name="Content-Type",
+     *         in="header",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="multipart/form-data;"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tasks retrieved successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+
+    public function me()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return $this->sendResponse($user, 'Info user');
+        } else {
+            return $this->sendError('Unauthorized.', ['error' => 'Unauthorized'],401);
+        }
+    }
 }

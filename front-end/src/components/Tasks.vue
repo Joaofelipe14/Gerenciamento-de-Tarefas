@@ -155,6 +155,9 @@ export default {
       this.showForm = !this.showForm;
     },
     createTask(taskData) {
+      console.log('craindo tareka')
+      console.log('taskdata')
+      console.log(taskData)
     },
     provide() {
         //sending data to any child component

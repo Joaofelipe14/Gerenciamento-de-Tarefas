@@ -14,14 +14,7 @@ class TaskController extends BaseController
 {
 
     /**
-     * @OA\SecurityScheme(
-     *    securityScheme="bearerAuth",
-     *    in="header",
-     *    name="Authorization",
-     *    type="http",
-     *    scheme="bearer",
-     *    bearerFormat="JWT",
-     * )
+
      * Retrieve tasks for the authenticated user.
      * @OA\Get(
      *     path="/api/tasks",
@@ -33,7 +26,6 @@ class TaskController extends BaseController
      *         name="Content-Type",
      *         in="header",
      *         required=true,
-     *         description="Tipo de conteúdo da solicitação",
      *         @OA\Schema(
      *             type="string",
      *             example="multipart/form-data;"
