@@ -34,7 +34,6 @@ Dentro da pasta front-end:
    ```
    npm install
    npm run serve
-   php artisan serve
 
    ```
 
