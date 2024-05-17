@@ -40,18 +40,19 @@ export default {
       loaded: true
     }
   },
-   props: {
-    task: Object, // Assuming Tasks is an array of task objects
+  props: {
+    taskData: Object // Defina a propriedade para receber os dados da tarefa
   },
   methods: {
     handleEdit(editedTask) {
       console.log('Tarefa editada:', editedTask);
     }
   },
-  mounted() {
-  console.log('Received task:', this.task); // Log the task object
-  // ... other initialization code
-}
+  created() {
+    const taskId = this.$route.params; // Acessa o parâmetro de rota 'id'
+    console.log(taskId); // Log do ID da tarefa
+    console.log(this.taskData); // Log dos dados da tarefa
+  }
 }
 </script>
 

@@ -236,6 +236,69 @@
                 ]
             }
         },
+        "/api/task_id/{id}": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "get a task By id",
+                "description": "Endpoint to an existing task.",
+                "operationId": "12856b70b8315f217c539603e49b614e",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "multipart/form-data;"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tasks retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title": "Task 1",
+                                            "description": "Description of task 1",
+                                            "created_at": "2024-05-15 10:00:00",
+                                            "updated_at": "2024-05-15 10:00:00"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title": "Task 2",
+                                            "description": "Description of task 2",
+                                            "created_at": "2024-05-15 11:00:00",
+                                            "updated_at": "2024-05-15 11:00:00"
+                                        }
+                                    ],
+                                    "message": "Tasks found"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [

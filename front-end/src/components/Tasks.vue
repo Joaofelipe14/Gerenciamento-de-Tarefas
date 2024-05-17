@@ -64,8 +64,9 @@
                     </i>
 
                   </a>
-                  <router-link :to="{ name: 'TaskEdit', params: { id: task.id } }" class="icon"
-                    v-on:click="passTask(task)">
+                  <router-link
+                   :to="{ name: 'TaskEdit',params: { id: task.id, taskData: task }}
+                  " class="icon">
                     <i>
                       <font-awesome-icon :icon="['fa', 'fa-pencil']"></font-awesome-icon>
                     </i>
@@ -121,9 +122,6 @@ export default {
 
   },
   methods: {
-    passTask(task) {
-      this.$router.currentRoute.value.params.task = task;
-    },
     async onDelete(id) {
 
       const confirmed = await showConfirmation('Are you sure you want to perform this action?');

@@ -309,4 +309,70 @@ class TaskController extends BaseController
             return $this->sendError('error', ['error' => 'Failed to delete task'], 400);
         }
     }
+
+    /**
+     * Get task by taskId.
+     *
+     * @OA\Get(
+     *     path="/api/task_id/{id}",
+     *     summary="get a task By id",
+     *     description="Endpoint to an existing task.",
+     *     tags={"Task"},
+     *     security={{ "bearerAuth": {} }},
+ *     @OA\Parameter(
+     *         name="Content-Type",
+     *         in="header",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="multipart/form-data;"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tasks retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={
+     *                 "data": {
+     *                     {
+     *                         "id": 1,
+     *                         "title": "Task 1",
+     *                         "description": "Description of task 1 filte by id",
+     *                         "created_at": "2022-05-15 10:00:00",
+     *                         "updated_at": "2022-05-15 10:00:00"
+     *                     },
+     *                 },
+     *                 "message": "Tasks found"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+    public function getTasksByTaskId($id_task)
+    {
+        try {
+            $user = Auth::user();
+
+            $tasks = Task::where('user_id', $user->id)
+                ->where('id', $id_task)
+                ->get();
+
+            if ($tasks->isEmpty()) {
+                return $this->sendResponse('', 'No tasks found for this user with the given task ID.');
+            }
+
+            return $this->sendResponse($tasks, 'Tasks found');
+        } catch (\Exception $e) {
+            return $this->sendError('error', ['error' => 'Failed to fetch tasks'], 500);
+        }
+    }
 }

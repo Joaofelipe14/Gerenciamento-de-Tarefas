@@ -26,7 +26,7 @@ const routes = [
 
   },
   {
-    path: '/TaskEdit/:id',
+    path: '/tasks/:id/edit',
     name: 'TaskEdit',
     component: TaskEdit,
     props: true,
