@@ -47,7 +47,9 @@ Com os dois projetos em execução para ver melhor as rotas da api acesse o back
 
    ```
 
-Para ver o front-end acesse
+Para ver o front-end acesse dados padroes
+email  test@example.com
+password password
   ```
 http://localhost:8080/login
    ```
