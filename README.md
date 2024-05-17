@@ -17,8 +17,8 @@ Apos o arquivo env gerado e configurado execute dentro da pasta back-end:
    ```
    composer install
    php artisan migrate
+   php artisan db:seed
    php artisan serve
-
    ```
 
 ## Front-end (Vue.js)
@@ -34,8 +34,6 @@ Dentro da pasta front-end:
    ```
    npm install
    npm run serve
-   php artisan serve
-
    ```
 
 ---
