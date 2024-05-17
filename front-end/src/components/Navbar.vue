@@ -13,6 +13,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">User</a>
                         </li>
+                        <li>
+                            <i> <font-awesome-icon :icon="['fas', 'right-from-bracket']" /></i>
+                        </li>
                     </ul>
                 </div>
             </div>
