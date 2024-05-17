@@ -22,6 +22,11 @@ class TaskService {
   deleteTask(taskId) {
     return axiosInstance.delete(`/tasks/${taskId}`, { headers });
   }
+
+  getTaskByTaskyd(taskId) {
+  console.log(taskId)
+    return axiosInstance.get(`/task_id/${taskId}`, { headers });
+  }
 }
 
 export default new TaskService();

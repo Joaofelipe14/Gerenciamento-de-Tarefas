@@ -3,9 +3,9 @@
   <div class="card-body mt-5 ms-5 me-5">
     <div v-if="loaded">
       <h3>Task details</h3>
-      
+
       <div class="card">
-        <task-form :task="task" mode="edit" @submit="handleEdit" />
+        <task-form :Task="Task" mode="edit" @submit="handleEdit" />
       </div>
     </div>
     <div v-else>
@@ -22,6 +22,7 @@
 import Navbar from './Navbar.vue'
 import Footer from './Footer.vue'
 import TaskForm from '@/components/TaskForm.vue';
+import TaskService from '../services/TaskService';
 
 
 export default {
@@ -37,11 +38,12 @@ export default {
       productId: '',
       productName: '',
       productPrice: '',
-      loaded: true
+      loaded: true,
+      Task: []
     }
   },
   props: {
-    taskData: Object // Defina a propriedade para receber os dados da tarefa
+    id: String
   },
   methods: {
     handleEdit(editedTask) {
@@ -49,9 +51,14 @@ export default {
     }
   },
   created() {
-    const taskId = this.$route.params; // Acessa o parâmetro de rota 'id'
-    console.log(taskId); // Log do ID da tarefa
-    console.log(this.taskData); // Log dos dados da tarefa
+    const taskId = this.$route.params.id;
+
+    TaskService.getTaskByTaskyd(taskId)
+      .then(response => {
+        this.Task = response.data.data;
+      }).catch(error => {
+        console.error('Erro ao criar a tarefa:', error);
+      });
   }
 }
 </script>

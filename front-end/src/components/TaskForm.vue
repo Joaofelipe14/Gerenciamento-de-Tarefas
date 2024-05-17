@@ -7,11 +7,11 @@
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label for="taskTitle">Title</label>
-          <input v-model="editedTask.title" type="text" class="form-control" id="taskTitle" name="taskTitle" required>
+          <input   :value="mode === 'edit' ? Task[0].title : ''"  type="text" class="form-control" id="taskTitle" name="taskTitle" required>
         </div>
         <div class="form-group">
           <label for="taskDescription">Description</label>
-          <input v-model="editedTask.description" type="text" class="form-control" id="taskDescription"
+          <input :value="mode === 'edit' ? Task[0].description : ''" type="text" class="form-control" id="taskDescription"
             name="taskDescription" required>
         </div>
         <div class="text-right mt-3">
@@ -25,18 +25,18 @@
 <script>
 export default {
   props: {
-    props: {
-    task: Object, // Define the prop to receive a task object
-    mode: String, // Optional prop for mode (edit in this case)
-  },
+    Task: {
+      type: Object, 
+    },
     mode: {
       type: String,
       default: 'create'
-    }
+    },
+  
   },
   data() {
     return {
-      editedTask: { ...this.task } 
+      editedTask:[],
     };
   },
   computed: {
@@ -49,11 +49,11 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$emit('submit', this.editedTask);
+      this.$emit('submit', this.Task);
     }
-  }
+  },
+
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
