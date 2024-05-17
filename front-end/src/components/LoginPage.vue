@@ -26,13 +26,13 @@
 
 <script>
 
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import APIClient from '../services/APIClient.js';
 import Loader from "@/components/Loader.vue";
 import { showError } from '@/components/utils/alertHandler.js'
 
-
 export default {
+  /* eslint-disable */
+
   components: {
     Loader
   },
@@ -47,36 +47,24 @@ export default {
   },
   methods: {
     async submitForm() {
-      createUserWithEmailAndPassword(auth, this.email, this.password)
-        .then((credential) => {
-          console.log(credential)
-          this.$router.push('/tasks');
-        })
-        .catch((error) => {
-          if (error.code === 'auth/email-already-in-use') {
-            this.signIn();
-          } else {
-            showError(error.message);
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.loading = true;
+
+      try {
+        await APIClient.login(this.email, this.password);
+        const tokenApi = await APIClient.login(this.email, this.password);
+        console.log(tokenApi.data.data.token)
+        await APIClient.authenticateWithFirebase(this.email, this.password);
+        this.$router.push('/tasks');
+      } catch (error) {  
+        showError('invalid credentials');
+
+
+      } finally {
+        this.loading = false;
+      };
 
     },
-    async signIn() {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, this.email, this.password)
-        .then((userCredential) => {
-          console.log(userCredential)
-          this.$router.push('/tasks');
-        })
-        .catch((error) => {
-          showError(error.message);
-          console.error(error);
-        });
 
-    }
   }
 };
 </script>
