@@ -52,9 +52,7 @@ export default {
       try {
         const tokenApi = await UserService.login(this.email, this.password);
         localStorage.setItem('token', tokenApi.data.data.token);
-        console.log(tokenApi)
         const authOk = await UserService.authenticateWithFirebase(this.email, this.password, this.$router);
-        console.log(authOk);
         if (authOk) {
           this.loading = false; 
         }

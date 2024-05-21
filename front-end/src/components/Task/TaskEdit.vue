@@ -49,10 +49,8 @@ export default {
   methods: {
       handleEdit(editedTask) {
 
-        console.log(editedTask)
         TaskService.updateTask(this.$route.params.id,editedTask)
         .then(response => {
-          console.log('Tarefa atualizada:', response.data);
         
           showSuccess('Task update')
         })

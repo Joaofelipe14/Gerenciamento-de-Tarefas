@@ -1,29 +1,33 @@
 import axiosInstance from './axiosInstance';
 
-const headers = {
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
-};
-
 class TaskService {
  
+  getHeaders() {
+    const token = localStorage.getItem('token');
+
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  }
+
   fetchTasks() {
-    return axiosInstance.get('/tasks', { headers });
+    return axiosInstance.get('/tasks', { headers: this.getHeaders() });
   }
 
   createTask(taskData) {
-    return axiosInstance.post('/tasks', taskData, { headers });
+    return axiosInstance.post('/tasks', taskData, { headers: this.getHeaders() });
   }
 
   updateTask(taskId, taskData) {
-    return axiosInstance.put(`/tasks/${taskId}`, taskData, { headers });
+    return axiosInstance.put(`/tasks/${taskId}`, taskData, { headers: this.getHeaders() });
   }
 
   deleteTask(taskId) {
-    return axiosInstance.delete(`/tasks/${taskId}`, { headers });
+    return axiosInstance.delete(`/tasks/${taskId}`, { headers: this.getHeaders() });
   }
 
   getTaskByTaskyd(taskId) {
-    return axiosInstance.get(`/task_id/${taskId}`, { headers });
+    return axiosInstance.get(`/task_id/${taskId}`, { headers: this.getHeaders() });
   }
 }
 
