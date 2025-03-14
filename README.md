@@ -124,3 +124,20 @@ Para acessar essas rotas, é necessário incluir o cabeçalho 'Authorization' co
 
 ---
 
+
+### Preview
+
+![Tela de login do sistema](https://raw.githubusercontent.com/Joaofelipe14/Gerenciamento-de-Tarefas/refs/heads/main/preview/login.png)
+_Tela de login do sistema_
+
+![Documentação do projeto](https://raw.githubusercontent.com/Joaofelipe14/Gerenciamento-de-Tarefas/refs/heads/main/preview/documentaçao.png)
+_Documentação do projeto_
+
+![Tela de criação de tarefa](https://raw.githubusercontent.com/Joaofelipe14/Gerenciamento-de-Tarefas/refs/heads/main/preview/cria_task.png)
+_Tela de criação de tarefa_
+
+![Outra tela de criação de tarefa](https://raw.githubusercontent.com/Joaofelipe14/Gerenciamento-de-Tarefas/refs/heads/main/preview/create_task.png)
+_Opcões de criação de tarefas_
+
+
+
